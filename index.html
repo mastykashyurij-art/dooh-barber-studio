@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DOOH Barber Studio — Kraków</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'Vonizena';
+      src: url('fonts/Vonizena.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:    #1C1917;
+      --secondary:  #44403C;
+      --accent:     #7B4A2D;
+      --accent-lt:  #C8956C;
+      --gold-shine: #D4A87A;
+      --bg:         #0C0A09;
+      --surface:    rgba(28, 25, 23, 0.72);
+      --glass:      rgba(255, 255, 255, 0.06);
+      --glass-bd:   rgba(255, 255, 255, 0.12);
+      --text:       #FAF3EB;
+      --text-muted: #B89B7A;
+      --border:     rgba(123, 74, 45, 0.30);
+      --radius:     4px;
+      --radius-lg:  12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Vonizena', serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── SCROLLBAR ─────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* ─── NAV ───────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0;
+      height: 72px;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: none;
+      transition: background 0.3s ease, transform 0.4s ease;
+      overflow: visible;
+    }
+
+    nav.nav-hidden {
+      transform: translateY(-100%);
+    }
+
+    .nav-logo {
+      text-decoration: none;
+      display: block;
+      position: fixed;
+      top: 0;
+      right: 10%;
+      margin: 0;
+      padding: 0;
+      line-height: 0;
+      z-index: 101;
+      cursor: pointer;
+      transform-origin: top center;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .nav-logo:hover {
+      transform: scale(1.25);
+    }
+
+    .nav-logo svg {
+      display: block;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45));
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      width: 100%;
+      justify-content: space-evenly;
+      padding-right: 180px;
+    }
+
+    .nav-links a {
+      font-size: 0.975rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover { color: #CCCCCC; }
+
+    .nav-cta {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: linear-gradient(135deg, var(--accent-lt), var(--gold-shine));
+      border: none;
+      padding: 10px 28px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ─── HERO ──────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      height: 100dvh;
+      min-height: 600px;
+      overflow: hidden;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    /* text card — LEFT */
+    .hero-left {
+      position: absolute;
+      left: 72px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 465px;
+      background: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: none;
+      border-radius: 0;
+      padding: 60px 48px;
+      z-index: 2;
+    }
+
+    /* stats — now on the LEFT */
+    .hero-right {
+      position: absolute;
+      left: 48px;
+      bottom: 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 2;
+      align-items: flex-start;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 1.02rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent-lt);
+      margin-bottom: 30px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 42px;
+      height: 1px;
+      background: var(--accent-lt);
+    }
+
+    .hero-title {
+      font-family: 'Bodoni Moda', serif;
+      font-size: clamp(3rem, 4.8vw, 4.5rem);
+      font-weight: 500;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent-lt);
+    }
+
+    .hero-sub {
+      font-size: 1.32rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: #C4A882;
+      margin-bottom: 42px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    @keyframes heroSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(48px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-eyebrow,
+    .hero-title,
+    .hero-sub,
+    .hero-actions {
+      opacity: 0;
+      animation: heroSlideUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .hero-eyebrow  { animation-delay: 0.1s; }
+    .hero-title    { animation-delay: 0.3s; }
+    .hero-sub      { animation-delay: 0.55s; }
+    .hero-actions  { animation-delay: 0.8s; }
+
+    /* stat pills on right */
+    .stat-item {
+      background: rgba(12, 10, 9, 0.54);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border: 1px solid rgba(161, 98, 7, 0.22);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      text-align: right;
+    }
+
+    .stat-num {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-num span { color: var(--accent-lt); }
+
+    .stat-label {
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .btn-primary {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: linear-gradient(135deg, var(--accent-lt), var(--gold-shine));
+      border: none;
+      padding: 16px 40px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(161,98,7,0.35);
+    }
+
+    .btn-ghost {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 15px 36px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-2px);
+    }
+
+    /* ─── MARQUEE TICKER ────────────────────────────────── */
+    .ticker {
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-lt) 50%, var(--accent) 100%);
+      padding: 13px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .ticker-inner {
+      display: inline-flex;
+      animation: marquee 22s linear infinite;
+    }
+
+    .ticker-item {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bg);
+      padding: 0 40px;
+    }
+
+    .ticker-dot {
+      color: rgba(12,10,9,0.4);
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── SECTIONS ──────────────────────────────────────── */
+    section { padding: 120px 48px; }
+
+    .section-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent-lt);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-tag::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 64px;
+    }
+
+    .section-title {
+      font-family: 'Bodoni Moda', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 500;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 520px;
+    }
+
+    /* ─── SERVICES ──────────────────────────────────────── */
+    #services .section-tag   { font-size: 1.02rem; }
+    #services .section-title { font-size: clamp(3rem, 6vw, 4.5rem); }
+    #services .section-sub   { font-size: 1.5rem; max-width: 780px; transition: color 0.8s ease, text-shadow 0.8s ease; }
+    #services {
+      background: linear-gradient(180deg, var(--bg) 0%, #110F0E 100%);
+      padding-bottom: 60px;
+      position: relative;
+      z-index: 0;
+    }
+
+    .services-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 24px;
+      margin-bottom: 8px;
+    }
+
+    .arc-stage {
+      position: relative;
+      width: 100%;
+      height: 88vh;
+      min-height: 620px;
+      overflow: hidden;
+    }
+
+    .arc-bg-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: url("Classic Shave.png") center / cover no-repeat;
+      opacity: 0;
+      transition: opacity 1.8s ease-in-out;
+      pointer-events: none;
+    }
+    .arc-bg-overlay.visible {
+      opacity: 0.75;
+    }
+
+    .arc-card {
+      position: absolute;
+      top: 0; left: 0;
+      width: 280px;
+      aspect-ratio: 9 / 16;
+      background: #161412;
+      padding: 36px 28px;
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      will-change: transform, opacity;
+      pointer-events: none;
+      transform-origin: center center;
+    }
+
+    .arc-stage:hover .arc-card {
+      pointer-events: auto;
+    }
+
+    .service-icon {
+      width: 44px;
+      height: 44px;
+      margin-bottom: 24px;
+      color: var(--accent-lt);
+    }
+
+    .service-name {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .service-desc {
+      font-size: 0.88rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .service-price {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--accent-lt);
+    }
+
+    .service-price small {
+      font-family: 'Vonizena', serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin-left: 4px;
+    }
+
+    /* ─── ABOUT / STUDIO ────────────────────────────────── */
+    #about {
+      background: #0E0C0A;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: center;
+      padding: 80px;
+    }
+    #about .about-visual {
+      position: relative;
+      z-index: 1;
+    }
+    #about .about-content {
+      position: relative;
+      z-index: 2;
+      width: 125%;
+      transform: translateX(110%);
+      opacity: 0;
+      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease;
+    }
+    #about .about-content.in-view {
+      transform: translateX(-25%);
+      opacity: 1;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-img-wrap {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: #1C1917;
+    }
+
+    .about-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-lt));
+      color: var(--bg);
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+
+    .about-badge-num {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 2.5rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .about-badge-txt {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .about-content { }
+
+    .about-text {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: #C4A882;
+      margin-bottom: 40px;
+    }
+
+    .about-pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .pillar {
+      border-left: 2px solid var(--accent);
+      padding-left: 16px;
+    }
+
+    .pillar-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .pillar-desc {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── ABOUT — inverted (tan bg, black text) ────────── */
+    #about {
+      background: linear-gradient(180deg, #110F0E 0%, #3A1E0D 5%, #7D4B28 10%, var(--accent-lt) 16%);
+    }
+    #about .about-img-wrap {
+      background: var(--accent);
+    }
+    #about .section-tag {
+      color: var(--accent-lt);
+    }
+    #about .section-tag::after {
+      background: rgba(200,149,108,0.5);
+    }
+    #about .section-title {
+      color: #FFFFFF;
+      text-shadow: 0 2px 16px rgba(255,255,255,0.15);
+    }
+    #about .about-text {
+      color: rgba(255,255,255,0.82);
+    }
+    #about .about-badge {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--accent-lt);
+    }
+    #about .pillar {
+      border-left-color: rgba(200,149,108,0.7);
+    }
+    #about .pillar-title {
+      color: #FFFFFF;
+    }
+    #about .pillar-desc {
+      color: rgba(255,255,255,0.65);
+    }
+    #about .btn-primary {
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+      color: #FFFFFF;
+      border: 1px solid rgba(255,255,255,0.35);
+      backdrop-filter: blur(8px);
+    }
+    #about .btn-primary:hover {
+      background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.14));
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    #about .about-content {
+      padding: 48px 44px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(89,0,1,0.78), rgba(89,0,1,0.55));
+      backdrop-filter: blur(24px) saturate(200%);
+      -webkit-backdrop-filter: blur(24px) saturate(200%);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-bottom-color: rgba(255,255,255,0.08);
+      box-shadow:
+        0 8px 40px rgba(89,0,1,0.4),
+        0 2px 8px rgba(89,0,1,0.2),
+        inset 0 1.5px 0 rgba(255,255,255,0.4),
+        inset 0 -1px 0 rgba(0,0,0,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    #about .about-content::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 100%);
+      border-radius: 20px 20px 0 0;
+      pointer-events: none;
+    }
+
+    /* ─── PROCESS ───────────────────────────────────────── */
+    #process {
+      background: #0C0A09;
+      text-align: center;
+    }
+
+    .process-header {
+      max-width: 560px;
+      margin: 0 auto 80px;
+    }
+
+    .process-header .section-tag {
+      justify-content: center;
+    }
+
+    .process-header .section-tag::after { display: none; }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .process-step {
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step-num {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #161412;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--accent-lt);
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-title {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* ─── PRICING ───────────────────────────────────────── */
+    #pricing {
+      background: #590001;
+    }
+
+    .pricing-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 64px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .pricing-card {
+      background: #161412;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      position: relative;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .pricing-card.featured {
+      background: linear-gradient(145deg, #1E1B16, #161210);
+      border-color: var(--accent);
+    }
+
+    .pricing-card:hover {
+      border-color: var(--border);
+      transform: translateY(-4px);
+    }
+
+    .pricing-card.featured:hover {
+      border-color: var(--accent-lt);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, var(--accent), var(--accent-lt));
+      color: var(--bg);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+
+    .plan-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .plan-price {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 3rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .plan-price sup {
+      font-size: 1.2rem;
+      vertical-align: super;
+      color: var(--accent-lt);
+    }
+
+    .plan-period {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .plan-divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 28px;
+    }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .plan-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--text-muted);
+    }
+
+    .plan-features li::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C8956C' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+
+    /* ─── TESTIMONIALS ──────────────────────────────────── */
+    #testimonials {
+      background: #0E0C0A;
+      text-align: center;
+    }
+
+    .testi-header {
+      max-width: 560px;
+      margin: 0 auto 72px;
+    }
+
+    .testi-header .section-tag {
+      justify-content: center;
+    }
+
+    .testi-header .section-tag::after { display: none; }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      text-align: left;
+    }
+
+    .testi-card {
+      background: #161412;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      transition: border-color 0.3s ease;
+    }
+
+    .testi-card:hover { border-color: var(--border); }
+
+    .testi-stars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+    }
+
+    .star {
+      width: 14px;
+      height: 14px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C8956C'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+
+    .testi-quote {
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: #D0B896;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .testi-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+
+    .testi-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+
+    .testi-city {
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── BOOKING CTA ───────────────────────────────────── */
+    #booking {
+      position: relative;
+      padding: 120px 48px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .booking-bg { display: none; }
+    .booking-overlay { display: none; }
+
+    .booking-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .booking-inner .section-tag {
+      justify-content: center;
+    }
+
+    .booking-inner .section-tag::after { display: none; }
+
+    .booking-title {
+      font-family: 'Bodoni Moda', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 500;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .booking-title em {
+      font-style: italic;
+      color: var(--accent-lt);
+    }
+
+    .booking-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 48px;
+    }
+
+    .booking-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+
+    .booking-contact {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-lt);
+    }
+
+    .contact-value {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────── */
+    footer {
+      background: #070605;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 56px 48px 32px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-brand-name {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .footer-brand-name span { color: var(--accent-lt); }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 220px;
+      margin-bottom: 24px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-link {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: border-color 0.2s ease, color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .social-link:hover {
+      border-color: var(--accent);
+      color: var(--accent-lt);
+    }
+
+    .social-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .footer-col-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--text-muted);
+    }
+
+    .footer-copy span { color: var(--accent-lt); }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .footer-legal a:hover { color: var(--text); }
+
+    /* ─── FOCUS & A11Y ──────────────────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--accent-lt);
+      outline-offset: 3px;
+      border-radius: var(--radius);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ─── RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      nav { padding: 0 28px; }
+      .nav-links { gap: 24px; }
+      .hero-left { right: 28px; width: 270px; padding: 32px 24px; }
+      .hero-right { left: 28px; }
+      section { padding: 80px 28px; }
+      #about { grid-template-columns: 1fr; padding: 80px 28px; gap: 48px; }
+      .about-badge { right: 0; bottom: -16px; }
+      .services-header { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .process-steps { grid-template-columns: repeat(2, 1fr); gap: 48px; }
+      .process-steps::before { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero-left { left: 16px; right: 16px; width: auto; padding: 28px 20px; top: auto; bottom: 120px; transform: none; }
+      .hero-right { left: 16px; right: auto; bottom: 16px; flex-direction: row; gap: 8px; }
+      .stat-item { padding: 10px 14px; }
+      .stat-num { font-size: 1.4rem; }
+      section { padding: 64px 20px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-header { flex-direction: column; align-items: flex-start; }
+      .process-steps { grid-template-columns: 1fr; gap: 40px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .booking-contact { flex-direction: column; align-items: center; gap: 24px; }
+      footer { padding: 48px 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVIGATION ──────────────────────────────────────── -->
+  <nav role="navigation" aria-label="Main navigation">
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">Studio</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#booking">Contact</a></li>
+    </ul>
+  </nav>
+  <a href="." onclick="window.scrollTo({top:0,behavior:'smooth'}); setTimeout(function(){ window.location.href=window.location.pathname; }, 900); return false;" class="nav-logo" aria-label="DOOH Barber Studio home">
+    <img src="WOODENLOGO.png" alt="DOOH Barber Studio" style="height:243px;width:auto;display:block;margin:0;padding:0;vertical-align:top;" />
+  </a>
+
+  <!-- ── HERO ────────────────────────────────────────────── -->
+  <section id="hero" aria-label="Hero">
+
+    <video class="hero-video"
+      src="BGVIDEO_loop.mp4" autoplay muted loop playsinline preload="auto"
+      aria-hidden="true"></video>
+
+    <!-- left glass card over dark wood area -->
+    <div class="hero-left" aria-label="Studio introduction">
+      <div class="hero-eyebrow">Kraków, Małopolska</div>
+      <h1 class="hero-title">
+        The Art of<br /><em>Refined</em><br />Grooming
+      </h1>
+      <p class="hero-sub">
+        Premium barbering studio in the heart of Kraków. Where tradition meets precision — every cut a crafted experience.
+      </p>
+      <div class="hero-actions">
+        <a href="#booking" class="btn-primary">Book Your Session</a>
+        <a href="#services" class="btn-ghost">Explore</a>
+      </div>
+    </div>
+
+
+  </section>
+
+  <!-- ── TICKER ───────────────────────────────────────────── -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-inner">
+      <span class="ticker-item">Classic Cuts <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Beard Sculpting <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Hot Towel Shave <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Kraków Studio <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Premium Grooming <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Luxury Experience <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Expert Stylists <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Classic Cuts <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Beard Sculpting <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Hot Towel Shave <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Kraków Studio <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Premium Grooming <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Luxury Experience <span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Expert Stylists <span class="ticker-dot">◆</span></span>
+    </div>
+  </div>
+
+  <!-- ── SERVICES ─────────────────────────────────────────── -->
+  <section id="services" aria-labelledby="services-heading">
+    <div id="arcBgOverlay" class="arc-bg-overlay"></div>
+    <div id="arcBgOverlay2" class="arc-bg-overlay"></div>
+    <div class="services-header">
+      <div>
+        <div class="section-tag">What We Offer</div>
+        <h2 class="section-title" id="services-heading">
+          Crafted with<br />
+          <em style="font-style:italic;font-family:'Bodoni Moda',serif;">Precision</em>
+        </h2>
+      </div>
+      <p class="section-sub" id="services-subtitle">
+        From signature cuts to meticulous beard work — each service is a ritual, performed with premium tools and decades of expertise.
+      </p>
+    </div>
+
+    <div class="arc-stage" id="arcStage">
+
+      <div class="arc-card">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 3v18M18 3v18M6 12h12"/>
+          <circle cx="6" cy="3" r="1.5"/><circle cx="18" cy="3" r="1.5"/>
+        </svg>
+        <h3 class="service-name">Signature Cut</h3>
+        <p class="service-desc">A full-service haircut tailored to your face shape and lifestyle. Includes wash, precision cut, and styled finish.</p>
+        <div class="service-price">120 <small>PLN</small></div>
+      </div>
+
+      <div class="arc-card">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 2C7 2 4 6 4 10c0 5 4 9 8 12 4-3 8-7 8-12 0-4-3-8-8-8z"/>
+        </svg>
+        <h3 class="service-name">Beard Sculpture</h3>
+        <p class="service-desc">Define, shape, and maintain your beard with expert sculpting. Hot towel prep included for the ultimate finish.</p>
+        <div class="service-price">80 <small>PLN</small></div>
+      </div>
+
+      <div class="arc-card">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19V8l8-5 8 5v11"/>
+          <rect x="9" y="13" width="6" height="6"/>
+        </svg>
+        <h3 class="service-name">Classic Shave</h3>
+        <p class="service-desc">Traditional straight-razor shave with hot towel treatment, premium shaving cream and soothing aftercare.</p>
+        <div class="service-price">100 <small>PLN</small></div>
+      </div>
+
+      <div class="arc-card">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3v4M12 17v4M4.22 6.22l2.83 2.83M16.95 16.95l2.83 2.83M3 12h4M17 12h4M4.22 17.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+        </svg>
+        <h3 class="service-name">Full Grooming</h3>
+        <p class="service-desc">Complete head-to-beard treatment. Signature cut, full beard sculpt and classic shave — the premium experience.</p>
+        <div class="service-price">180 <small>PLN</small></div>
+      </div>
+
+      <div class="arc-card">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+        </svg>
+        <h3 class="service-name">Scalp Treatment</h3>
+        <p class="service-desc">Deep conditioning scalp massage using premium oils. Restores moisture, reduces tension, promotes growth.</p>
+        <div class="service-price">90 <small>PLN</small></div>
+      </div>
+
+      <div class="arc-card">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v4l3 3"/>
+        </svg>
+        <h3 class="service-name">Express Service</h3>
+        <p class="service-desc">30-minute precision trim and beard line-up for the busy professional. Sharp results, no compromise.</p>
+        <div class="service-price">60 <small>PLN</small></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── ABOUT / STUDIO ────────────────────────────────────── -->
+  <section id="about" aria-labelledby="about-heading">
+    <div class="about-visual">
+      <div class="about-img-wrap">
+        <img src="1.png" alt="Lead barber at DOOH Barber Studio Kraków, standing in the premium studio interior" loading="lazy" />
+      </div>
+      <div class="about-badge" aria-hidden="true">
+        <div class="about-badge-num">8</div>
+        <div class="about-badge-txt">Years of<br/>Mastery</div>
+      </div>
+    </div>
+
+    <div class="about-content">
+      <div class="section-tag">Our Story</div>
+      <h2 class="section-title" id="about-heading">
+        A Studio Built on<br />
+        <em style="font-style:italic;font-family:'Bodoni Moda',serif;">Craft & Character</em>
+      </h2>
+      <p class="about-text">
+        Born in the heart of Kraków, DOOH Barber Studio was founded with a single conviction — that every man deserves the barber experience. Not just a haircut, but a ritual. A moment of calm in a city that never stops moving.
+      </p>
+      <p class="about-text">
+        Our studio blends classic barbering tradition with a modern, refined sensibility. Dark walnut, white tile, leather and steel — an environment as carefully considered as the work we do.
+      </p>
+
+      <div class="about-pillars">
+        <div class="pillar">
+          <div class="pillar-title">Precision</div>
+          <div class="pillar-desc">Every line, every edge — measured and intentional.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-title">Tradition</div>
+          <div class="pillar-desc">Time-honoured techniques, premium classic tools.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-title">Discretion</div>
+          <div class="pillar-desc">Your time, your style, your space to unwind.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-title">Excellence</div>
+          <div class="pillar-desc">No shortcuts — only the standard you deserve.</div>
+        </div>
+      </div>
+
+      <a href="#booking" class="btn-primary">Reserve Your Chair</a>
+    </div>
+  </section>
+
+  <!-- ── PROCESS ───────────────────────────────────────────── -->
+  <section id="process" aria-labelledby="process-heading">
+    <div class="process-header">
+      <div class="section-tag">How It Works</div>
+      <h2 class="section-title" id="process-heading">Your Visit, <em style="font-style:italic;font-family:'Bodoni Moda',serif;">Seamless</em></h2>
+      <p class="section-sub" style="margin:0 auto">From booking to the final look — every step is designed for your comfort.</p>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Book Online</h3>
+        <p class="step-desc">Choose your service and preferred barber. Pick a time that suits you — evenings and weekends available.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <h3 class="step-title">Arrive & Unwind</h3>
+        <p class="step-desc">Walk into the studio, settle into the chair. Complimentary beverage while we discuss your look.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <h3 class="step-title">Crafted for You</h3>
+        <p class="step-desc">Your barber works with precision and focus. Every detail refined to your specifications.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <h3 class="step-title">Leave Sharp</h3>
+        <p class="step-desc">Walk out looking and feeling exceptional. Maintenance tips and product recommendations included.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRICING ───────────────────────────────────────────── -->
+  <section id="pricing" aria-labelledby="pricing-heading">
+    <div class="pricing-header">
+      <div>
+        <div class="section-tag">Investment</div>
+        <h2 class="section-title" id="pricing-heading">Simple,<br /><em style="font-style:italic;font-family:'Bodoni Moda',serif;">Transparent</em> Pricing</h2>
+      </div>
+      <p class="section-sub">No surprises. Premium experience at a fair price. All sessions include consultation, styling and aftercare.</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="pricing-card" aria-label="Essential plan">
+        <div class="plan-name">Essential</div>
+        <div class="plan-price"><sup>PLN</sup>60</div>
+        <div class="plan-period">per session · 30 min</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Express precision trim</li>
+          <li>Beard line-up</li>
+          <li>Styling finish</li>
+          <li>Complimentary drink</li>
+        </ul>
+        <a href="#booking" class="btn-ghost" style="display:block;text-align:center;">Book Essential</a>
+      </div>
+
+      <div class="pricing-card featured" aria-label="Signature plan — most popular">
+        <div class="featured-badge">Most Popular</div>
+        <div class="plan-name">Signature</div>
+        <div class="plan-price"><sup>PLN</sup>120</div>
+        <div class="plan-period">per session · 60 min</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Full signature cut</li>
+          <li>Beard sculpture</li>
+          <li>Hot towel treatment</li>
+          <li>Scalp massage</li>
+          <li>Complimentary drink</li>
+        </ul>
+        <a href="#booking" class="btn-primary" style="display:block;text-align:center;">Book Signature</a>
+      </div>
+
+      <div class="pricing-card" aria-label="Premium plan">
+        <div class="plan-name">Premium</div>
+        <div class="plan-price"><sup>PLN</sup>180</div>
+        <div class="plan-period">per session · 90 min</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Full grooming experience</li>
+          <li>Classic straight-razor shave</li>
+          <li>Deep scalp treatment</li>
+          <li>Premium aftercare products</li>
+          <li>Priority scheduling</li>
+        </ul>
+        <a href="#booking" class="btn-ghost" style="display:block;text-align:center;">Book Premium</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ──────────────────────────────────────── -->
+  <section id="testimonials" aria-labelledby="testi-heading">
+    <div class="testi-header">
+      <div class="section-tag">Client Words</div>
+      <h2 class="section-title" id="testi-heading">What Gentlemen<br /><em style="font-style:italic;font-family:'Bodoni Moda',serif;">Are Saying</em></h2>
+    </div>
+
+    <div class="testi-grid">
+
+      <article class="testi-card">
+        <div class="testi-stars" aria-label="5 stars">
+          <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        </div>
+        <p class="testi-quote">"The best barbershop experience I've had in Poland. The atmosphere is immaculate — dark wood, clean lines, serious craft. I won't go anywhere else."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" aria-hidden="true">M</div>
+          <div>
+            <div class="testi-name">Michał K.</div>
+            <div class="testi-city">Kraków, Old Town</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-stars" aria-label="5 stars">
+          <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        </div>
+        <p class="testi-quote">"Came for a trim, stayed for the experience. The hot towel shave alone is worth the visit. These guys genuinely care about their craft."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" aria-hidden="true">T</div>
+          <div>
+            <div class="testi-name">Tomasz W.</div>
+            <div class="testi-city">Kraków, Kazimierz</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-stars" aria-label="5 stars">
+          <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        </div>
+        <p class="testi-quote">"Professional, punctual, and precise. The beard sculpture took my look to another level. Highly recommend the premium package — worth every złoty."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" aria-hidden="true">A</div>
+          <div>
+            <div class="testi-name">Adam P.</div>
+            <div class="testi-city">Kraków, Podgórze</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ── BOOKING CTA ───────────────────────────────────────── -->
+  <section id="booking" aria-labelledby="booking-heading">
+    <div class="booking-bg" role="img" aria-label="Barbershop background"></div>
+    <div class="booking-overlay" aria-hidden="true"></div>
+    <div class="booking-inner">
+      <div class="section-tag">Reserve Your Chair</div>
+      <h2 class="booking-title" id="booking-heading">
+        Ready to Look<br /><em>Exceptional?</em>
+      </h2>
+      <p class="booking-sub">
+        Book your session today. Walk in a man, walk out a statement. Limited appointments — your preferred slot won't last.
+      </p>
+      <div class="booking-actions">
+        <a href="tel:+48123456789" class="btn-primary">Call to Book</a>
+        <a href="mailto:info@doohbarber.pl" class="btn-ghost">Email Us</a>
+      </div>
+
+      <div class="booking-contact" aria-label="Contact information">
+        <div class="contact-item">
+          <div class="contact-label">Address</div>
+          <div class="contact-value">ul. Floriańska 14, Kraków</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-label">Hours</div>
+          <div class="contact-value">Mon–Sat · 09:00–20:00</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-label">Phone</div>
+          <div class="contact-value">+48 123 456 789</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-label">Instagram</div>
+          <div class="contact-value">@doohbarber_krakow</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────── -->
+  <footer role="contentinfo">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">DOOH <span>BARBER</span></div>
+        <p class="footer-tagline">Premium barbering studio in the heart of Kraków. Crafting refined looks since 2016.</p>
+        <div class="footer-socials" aria-label="Social media links">
+          <a href="#" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Google Maps">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#services">Signature Cut</a></li>
+          <li><a href="#services">Beard Sculpture</a></li>
+          <li><a href="#services">Classic Shave</a></li>
+          <li><a href="#services">Full Grooming</a></li>
+          <li><a href="#services">Scalp Treatment</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Studio</div>
+        <ul class="footer-links">
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#process">How It Works</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Visit Us</div>
+        <ul class="footer-links">
+          <li><a>ul. Floriańska 14</a></li>
+          <li><a>31-021 Kraków</a></li>
+          <li><a href="tel:+48123456789">+48 123 456 789</a></li>
+          <li><a href="mailto:info@doohbarber.pl">info@doohbarber.pl</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 <span>DOOH Barber Studio</span> · Kraków, Poland</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const nav = document.querySelector('nav');
+      const hero = document.getElementById('hero');
+      function onScroll() {
+        const heroBottom = hero ? hero.offsetHeight : window.innerHeight;
+        nav.classList.toggle('nav-hidden', window.scrollY >= heroBottom);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+
+    (function () {
+      const stage = document.getElementById('arcStage');
+      if (!stage) return;
+      const cards = Array.from(stage.querySelectorAll('.arc-card'));
+      const N = cards.length;
+
+      let position = 0;
+      let velocity = 0;
+      let isOver = false;
+
+      // two overlays for smooth crossfade between images
+      let overlayA = document.getElementById('arcBgOverlay');
+      let overlayB = document.getElementById('arcBgOverlay2');
+      let currentImage = null;
+
+      // card index → background image (add more entries to extend)
+      const cardImages = {
+        0: 'Signature Cut.png',
+        1: 'Beard Sculpture.png',
+        2: 'Classic Shave.png',
+        3: 'Full Grooming.png',
+        4: 'Scalp Treatment.png',
+        5: 'Express Service.png'
+      };
+
+      // subtitle color + shadow per background image
+      const subtitleStyles = {
+        'Signature Cut.png':   { color: '#F5E2B0', shadow: '0 1px 12px rgba(0,0,0,0.6)' },
+        'Beard Sculpture.png': { color: '#B8D4E0', shadow: '0 1px 12px rgba(0,0,0,0.55)' },
+        'Classic Shave.png':   { color: '#EAE8E2', shadow: '0 1px 14px rgba(0,0,0,0.65)' },
+        'Full Grooming.png':   { color: '#D4B48A', shadow: '0 1px 12px rgba(0,0,0,0.6)' },
+        'Scalp Treatment.png': { color: '#B2CFC0', shadow: '0 1px 12px rgba(0,0,0,0.55)' },
+        'Express Service.png': { color: '#FFFFFF',  shadow: '0 1px 16px rgba(0,0,0,0.7)' },
+      };
+      const subtitleDefault = { color: '', shadow: 'none' };
+      const subtitle = document.getElementById('services-subtitle');
+
+      function setSubtitleStyle(img) {
+        const s = img ? (subtitleStyles[img] || subtitleDefault) : subtitleDefault;
+        if (subtitle) {
+          subtitle.style.color      = s.color;
+          subtitle.style.textShadow = s.shadow;
+        }
+      }
+
+      function bezier(t, p0, p1, p2) {
+        const m = 1 - t;
+        return m * m * p0 + 2 * m * t * p1 + t * t * p2;
+      }
+
+      function render() {
+        const W = stage.offsetWidth;
+        const H = stage.offsetHeight;
+        const x0 = W * 0.94, y0 = H * 0.92;
+        const xc = W * 0.50, yc = H * 0.02;
+        const x2 = W * 0.06, y2 = H * 0.92;
+        const globalT = ((position % 1) + 1) % 1;
+        let peakImage = null;
+        cards.forEach((card, i) => {
+          const t = (globalT + i / N) % 1;
+          const cx = bezier(t, x0, xc, x2);
+          const cy = bezier(t, y0, yc, y2);
+          const s = 0.20 + 0.80 * Math.sin(t * Math.PI);
+          const alpha = Math.pow(Math.max(0, Math.sin(t * Math.PI)), 12);
+          const tx = cx - card.offsetWidth / 2;
+          const ty = cy - card.offsetHeight / 2;
+          card.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${s.toFixed(3)})`;
+          card.style.opacity = alpha.toFixed(3);
+          card.style.zIndex = Math.round(s * 100);
+
+          // collect whichever image-mapped card is at peak this frame
+          if (cardImages[i] && t > 0.44 && t < 0.56) {
+            peakImage = cardImages[i];
+          }
+        });
+
+        // crossfade overlays when image changes
+        if (peakImage && isOver) {
+          if (peakImage !== currentImage) {
+            // load new image onto inactive overlay, fade it in, fade out active
+            overlayB.style.backgroundImage = `url("${peakImage}")`;
+            overlayB.classList.add('visible');
+            overlayA.classList.remove('visible');
+            // swap roles so A is always the visible one
+            [overlayA, overlayB] = [overlayB, overlayA];
+            currentImage = peakImage;
+            setSubtitleStyle(currentImage);
+          }
+        } else {
+          overlayA.classList.remove('visible');
+          overlayB.classList.remove('visible');
+          currentImage = null;
+          setSubtitleStyle(null);
+        }
+      }
+
+      function onWheel(e) {
+        if (!isOver) return;           // ← guard: never preventDefault after cursor leaves
+        e.preventDefault();
+        velocity += e.deltaY * 0.00004;
+      }
+
+      function activateSlider() {
+        if (!isOver) {
+          isOver = true;
+          stage.addEventListener('wheel', onWheel, { passive: false });
+        }
+      }
+      function deactivateSlider() {
+        if (isOver) {
+          isOver = false;
+          stage.removeEventListener('wheel', onWheel, { passive: false });
+          velocity = 0;
+        }
+      }
+
+      // track cursor position within stage — only capture scroll in the middle zone
+      // bottom 15% and top 10% of the stage pass scroll through to the page
+      stage.addEventListener('mousemove', (e) => {
+        const rect = stage.getBoundingClientRect();
+        const relY = (e.clientY - rect.top) / rect.height;
+        const inZone = relY >= 0.20 && relY <= 0.75;
+        inZone ? activateSlider() : deactivateSlider();
+      });
+
+      stage.addEventListener('mouseleave', deactivateSlider);
+
+      function loop() {
+        if (Math.abs(velocity) > 0.00001) {
+          position += velocity;
+          position = ((position % 1) + 1) % 1;
+          velocity *= 0.92;
+          render();
+        }
+        requestAnimationFrame(loop);
+      }
+
+      render();
+      requestAnimationFrame(loop);
+
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const content = document.querySelector('#about .about-content');
+      if (!content) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          content.classList.toggle('in-view', entry.isIntersecting);
+        },
+        { threshold: 0.5 }
+      );
+      observer.observe(document.getElementById('about'));
+    })();
+  </script>
+</body>
+</html>

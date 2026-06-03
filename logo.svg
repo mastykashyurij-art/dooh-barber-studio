@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 92 112" width="460" height="560">
+  <!-- Outer banner -->
+  <path d="M4,3 H88 V87 L46,109 L4,87 Z" fill="#FAF9F7" stroke="#1C1917" stroke-width="2.2"/>
+  <!-- Inner border -->
+  <path d="M10,9 H82 V84 L46,103 L10,84 Z" fill="none" stroke="#1C1917" stroke-width="0.85"/>
+  <!-- Handlebar mustache -->
+  <path d="M46,28 C44,22 34,18 25,22 C18,24 16,31 21,35 C25,38 33,37 37,32 C39,30 41,29 43,29 L46,28 L49,29 C51,29 53,30 55,32 C59,37 67,38 71,35 C76,31 74,24 67,22 C58,18 48,22 46,28 Z" fill="#1C1917"/>
+  <!-- DOOH -->
+  <text x="46" y="46" text-anchor="middle" font-family="'Jost',Arial,sans-serif" font-weight="700" font-size="10" fill="#1C1917" textLength="44" lengthAdjust="spacingAndGlyphs">DOOH</text>
+  <!-- BARBER -->
+  <text x="46" y="66" text-anchor="middle" font-family="'Jost',Arial,sans-serif" font-weight="800" font-size="21" fill="#1C1917" textLength="64" lengthAdjust="spacingAndGlyphs">BARBER</text>
+  <!-- studio -->
+  <text x="46" y="79" text-anchor="middle" font-family="'Bodoni Moda',Georgia,serif" font-style="italic" font-size="12" fill="#1C1917">studio</text>
+</svg>
