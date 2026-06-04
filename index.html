@@ -215,9 +215,9 @@
 
     .hero-sub {
       font-size: 1.32rem;
-      font-weight: 300;
+      font-weight: 400;
       line-height: 1.7;
-      color: #C4A882;
+      color: #F0E8DC;
       margin-bottom: 42px;
     }
 
@@ -412,7 +412,7 @@
       align-items: center;
       text-align: center;
       gap: 24px;
-      margin-bottom: 8px;
+      margin-bottom: 0;
     }
 
     .arc-stage {
@@ -1247,21 +1247,43 @@
     /* ─── MOBILE ≤768px — fully fluid, adapts to every resolution ── */
     @media (max-width: 768px) {
 
-      /* Nav */
+      /* Nav — mobile: transparent, 4 links only */
       nav {
         padding: 0 clamp(12px, 4vw, 20px);
-        height: clamp(52px, 14vw, 68px);
+        height: 52px;
         justify-content: center;
+        background: transparent !important;
       }
-      .nav-links { display: none; }
+      .nav-links {
+        display: flex;
+        gap: 0;
+        padding-right: 0;
+        justify-content: space-evenly;
+        width: 100%;
+      }
+      .nav-links a {
+        font-size: clamp(0.6rem, 3vw, 0.78rem);
+        letter-spacing: 0.12em;
+      }
       .nav-cta  { display: none; }
       .nav-logo {
-        right: 50%;
-        transform: translateX(50%);
-        transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        position: fixed;
+        top: clamp(4px, 2vw, 10px);
+        right: clamp(8px, 3vw, 16px);
+        left: auto;
+        transform: translateY(-12px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22,1,0.36,1);
+        z-index: 201;
       }
-      .nav-logo img { height: clamp(60px, 20vw, 100px) !important; }
-      .nav-logo:hover { transform: translateX(50%) scale(1.08); }
+      .nav-logo img { height: clamp(60px, 18vw, 90px) !important; }
+      .nav-logo.logo-visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .nav-logo:hover { transform: translateY(0) scale(1.1); }
 
       /* Hero */
       .hero-left {
@@ -1980,6 +2002,19 @@
   </script>
 
   <script>
+    // Mobile logo — reveal after hero scrolled past
+    (function () {
+      if (window.innerWidth > 768) return;
+      const logo = document.querySelector('.nav-logo');
+      const hero = document.getElementById('hero');
+      if (!logo || !hero) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => logo.classList.toggle('logo-visible', !entry.isIntersecting),
+        { threshold: 0 }
+      );
+      obs.observe(hero);
+    })();
+
     // Mobile bottom nav — active state on scroll
     (function () {
       const links = document.querySelectorAll('.mbn-link');
