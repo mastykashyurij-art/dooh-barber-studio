@@ -1198,6 +1198,47 @@
       .arc-stage { height: 75vh; min-height: 520px; }
     }
 
+    /* ─── ARC CAROUSEL NAV ARROWS ──────────────────────── */
+    .arc-nav-btn {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .arc-nav-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 20;
+        width: clamp(44px, 13vw, 58px);
+        height: clamp(44px, 13vw, 58px);
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(44,26,12,0.72), rgba(28,18,8,0.58));
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px) saturate(160%);
+        border: 1px solid rgba(200,149,108,0.45);
+        box-shadow:
+          0 4px 20px rgba(0,0,0,0.45),
+          inset 0 1px 0 rgba(200,149,108,0.25),
+          inset 0 -1px 0 rgba(0,0,0,0.2);
+        color: var(--accent-lt);
+        cursor: pointer;
+        transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      }
+      .arc-nav-btn:active {
+        transform: translateY(-50%) scale(0.92);
+        background: linear-gradient(135deg, rgba(123,74,45,0.65), rgba(44,26,12,0.72));
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(200,149,108,0.3);
+      }
+      .arc-nav-btn svg {
+        width: clamp(18px, 5vw, 24px);
+        height: clamp(18px, 5vw, 24px);
+      }
+      .arc-nav-prev { left: clamp(10px, 3.5vw, 20px); }
+      .arc-nav-next { right: clamp(10px, 3.5vw, 20px); }
+    }
+
     /* ─── MOBILE BOTTOM NAV ─────────────────────────────── */
     .mobile-bottom-nav {
       display: none;
@@ -1494,6 +1535,14 @@
     </div>
 
     <div class="arc-stage" id="arcStage">
+
+      <!-- mobile nav arrows -->
+      <button class="arc-nav-btn arc-nav-prev" aria-label="Previous service">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="arc-nav-btn arc-nav-next" aria-label="Next service">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
 
       <div class="arc-card">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1984,6 +2033,16 @@
       });
 
       stage.addEventListener('mouseleave', deactivateSlider);
+
+      // On touch devices keep isOver=true so backgrounds always render
+      if ('ontouchstart' in window) isOver = true;
+
+      // Mobile arrow navigation
+      const prevBtn = stage.querySelector('.arc-nav-prev');
+      const nextBtn = stage.querySelector('.arc-nav-next');
+      // velocity * 12.5 ≈ total position change (damping 0.92); 1/N ≈ 0.167 → velocity ≈ 0.016
+      if (prevBtn) prevBtn.addEventListener('click', () => { velocity += 0.016; });
+      if (nextBtn) nextBtn.addEventListener('click', () => { velocity -= 0.016; });
 
       function loop() {
         if (Math.abs(velocity) > 0.00001) {
