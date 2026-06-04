@@ -2037,20 +2037,51 @@
       // On touch devices keep isOver=true so backgrounds always render
       if ('ontouchstart' in window) isOver = true;
 
-      // Mobile arrow navigation
+      // Mobile arrow navigation — lerp to exact card position
+      let targetPos = null;
+
+      function getPeakCardIndex() {
+        let best = 0, minDist = Infinity;
+        cards.forEach((_, i) => {
+          const t = ((position + i / N) % 1 + 1) % 1;
+          const d = Math.abs(t - 0.5);
+          if (d < minDist) { minDist = d; best = i; }
+        });
+        return best;
+      }
+
+      function setTargetCard(idx) {
+        const i = ((idx % N) + N) % N;
+        targetPos = ((0.5 - i / N) % 1 + 1) % 1;
+      }
+
       const prevBtn = stage.querySelector('.arc-nav-prev');
       const nextBtn = stage.querySelector('.arc-nav-next');
-      // velocity * 12.5 ≈ total position change (damping 0.92); 1/N ≈ 0.167 → velocity ≈ 0.016
-      if (prevBtn) prevBtn.addEventListener('click', () => { velocity += 0.016; });
-      if (nextBtn) nextBtn.addEventListener('click', () => { velocity -= 0.016; });
+      if (prevBtn) prevBtn.addEventListener('click', () => setTargetCard(getPeakCardIndex() - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => setTargetCard(getPeakCardIndex() + 1));
 
       function loop() {
-        if (Math.abs(velocity) > 0.00001) {
-          position += velocity;
-          position = ((position % 1) + 1) % 1;
+        let moved = false;
+
+        if (targetPos !== null) {
+          let diff = targetPos - position;
+          if (diff > 0.5) diff -= 1;
+          if (diff < -0.5) diff += 1;
+          if (Math.abs(diff) < 0.0005) {
+            position = targetPos;
+            velocity = 0;
+            targetPos = null;
+          } else {
+            position = ((position + diff * 0.1) % 1 + 1) % 1;
+          }
+          moved = true;
+        } else if (Math.abs(velocity) > 0.00001) {
+          position = ((position + velocity) % 1 + 1) % 1;
           velocity *= 0.92;
-          render();
+          moved = true;
         }
+
+        if (moved) render();
         requestAnimationFrame(loop);
       }
 
