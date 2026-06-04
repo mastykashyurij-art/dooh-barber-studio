@@ -1198,6 +1198,52 @@
       .arc-stage { height: 75vh; min-height: 520px; }
     }
 
+    /* ─── MOBILE BOTTOM NAV ─────────────────────────────── */
+    .mobile-bottom-nav {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        width: 100%;
+        z-index: 200;
+        background: rgba(12, 10, 9, 0.92);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-top: 1px solid rgba(200,149,108,0.18);
+        padding: 0;
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      .mbn-link {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(3px, 1vw, 5px);
+        padding: clamp(10px, 2.5vw, 14px) 0;
+        text-decoration: none;
+        color: var(--text-muted);
+        transition: color 0.2s ease;
+        font-size: clamp(0.58rem, 2.2vw, 0.7rem);
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .mbn-link svg {
+        width: clamp(18px, 5.5vw, 24px);
+        height: clamp(18px, 5.5vw, 24px);
+      }
+      .mbn-link:hover,
+      .mbn-link.active {
+        color: var(--accent-lt);
+      }
+      /* push page content above the bottom bar */
+      body { padding-bottom: clamp(56px, 14vw, 72px); }
+    }
+
     /* ─── MOBILE ≤768px — fully fluid, adapts to every resolution ── */
     @media (max-width: 768px) {
 
@@ -1338,6 +1384,27 @@
       <li><a href="#booking">Contact</a></li>
     </ul>
   </nav>
+
+  <!-- ── MOBILE BOTTOM NAV ──────────────────────────────── -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+    <a href="#services" class="mbn-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Services</span>
+    </a>
+    <a href="#about" class="mbn-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Studio</span>
+    </a>
+    <a href="#pricing" class="mbn-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      <span>Pricing</span>
+    </a>
+    <a href="#booking" class="mbn-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Contact</span>
+    </a>
+  </nav>
+
   <a href="." onclick="window.scrollTo({top:0,behavior:'smooth'}); setTimeout(function(){ window.location.href=window.location.pathname; }, 900); return false;" class="nav-logo" aria-label="DOOH Barber Studio home">
     <img src="WOODENLOGO.png" alt="DOOH Barber Studio" style="height:243px;width:auto;display:block;margin:0;padding:0;vertical-align:top;" />
   </a>
@@ -1913,6 +1980,22 @@
   </script>
 
   <script>
+    // Mobile bottom nav — active state on scroll
+    (function () {
+      const links = document.querySelectorAll('.mbn-link');
+      const sections = ['services','about','pricing','booking'].map(id => document.getElementById(id));
+      function updateActive() {
+        const mid = window.scrollY + window.innerHeight / 2;
+        let active = null;
+        sections.forEach((s, i) => {
+          if (s && s.offsetTop <= mid) active = i;
+        });
+        links.forEach((l, i) => l.classList.toggle('active', i === active));
+      }
+      window.addEventListener('scroll', updateActive, { passive: true });
+      updateActive();
+    })();
+
     (function () {
       const content = document.querySelector('#about .about-content');
       if (!content) return;
