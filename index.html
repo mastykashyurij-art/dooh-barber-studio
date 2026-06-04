@@ -1198,46 +1198,86 @@
       .arc-stage { height: 75vh; min-height: 520px; }
     }
 
-    /* ─── MOBILE 768px ──────────────────────────────────── */
+    /* ─── MOBILE ≤768px — fully fluid, adapts to every resolution ── */
     @media (max-width: 768px) {
+
       /* Nav */
-      nav { padding: 0 16px; height: 60px; justify-content: center; }
+      nav {
+        padding: 0 clamp(12px, 4vw, 20px);
+        height: clamp(52px, 14vw, 68px);
+        justify-content: center;
+      }
       .nav-links { display: none; }
-      .nav-cta { display: none; }
-      .nav-logo { right: 50%; transform: translateX(50%); }
-      .nav-logo img { height: 90px !important; }
+      .nav-cta  { display: none; }
+      .nav-logo {
+        right: 50%;
+        transform: translateX(50%);
+        transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      }
+      .nav-logo img { height: clamp(60px, 20vw, 100px) !important; }
       .nav-logo:hover { transform: translateX(50%) scale(1.08); }
 
       /* Hero */
       .hero-left {
-        left: 16px; right: 16px; width: auto;
-        padding: 24px 20px; top: auto;
-        bottom: 80px; transform: none;
+        left: clamp(10px, 4vw, 20px);
+        right: clamp(10px, 4vw, 20px);
+        width: auto;
+        padding: clamp(18px, 5vw, 28px) clamp(14px, 4.5vw, 24px);
+        top: auto;
+        bottom: clamp(60px, 16vw, 100px);
+        transform: none;
       }
-      .hero-eyebrow { font-size: 0.66rem; gap: 8px; margin-bottom: 16px; }
-      .hero-eyebrow::before { width: 24px; }
-      .hero-title { font-size: clamp(1.8rem, 7vw, 2.6rem); margin-bottom: 14px; }
-      .hero-sub { font-size: 0.9rem; margin-bottom: 24px; }
-      .hero-actions { flex-direction: column; gap: 10px; }
+      .hero-eyebrow {
+        font-size: clamp(0.56rem, 2.2vw, 0.72rem);
+        gap: clamp(6px, 2vw, 10px);
+        margin-bottom: clamp(10px, 3vw, 18px);
+      }
+      .hero-eyebrow::before { width: clamp(18px, 5vw, 28px); }
+      .hero-title {
+        font-size: clamp(1.55rem, 6.5vw, 2.6rem);
+        margin-bottom: clamp(10px, 3vw, 16px);
+        line-height: 1.1;
+      }
+      .hero-sub {
+        font-size: clamp(0.78rem, 3vw, 1rem);
+        margin-bottom: clamp(18px, 5vw, 28px);
+      }
+      .hero-actions { flex-direction: column; gap: clamp(8px, 2.5vw, 12px); }
       .btn-primary, .btn-ghost { text-align: center; width: 100%; }
       .hero-right { display: none; }
 
       /* Sections */
-      section { padding: 60px 16px; }
-      .section-title { font-size: clamp(1.8rem, 6vw, 2.4rem); }
-      .section-sub { font-size: 0.95rem; }
+      section {
+        padding: clamp(40px, 10vw, 68px) clamp(12px, 4vw, 20px);
+      }
+      .section-tag  { font-size: clamp(0.58rem, 2.2vw, 0.72rem); }
+      .section-title { font-size: clamp(1.5rem, 6vw, 2.4rem); line-height: 1.2; }
+      .section-sub  { font-size: clamp(0.82rem, 3.2vw, 1rem); }
 
-      /* Services arc */
-      .arc-stage { height: 65vh; min-height: 440px; }
-      .arc-card { width: 200px; padding: 24px 18px; }
-      .service-icon { width: 32px; height: 32px; margin-bottom: 14px; }
-      #services .section-sub { font-size: 1rem; }
+      /* Services arc — fluid card & stage */
+      #services .section-sub { font-size: clamp(0.85rem, 3.2vw, 1.1rem); }
+      .arc-stage {
+        height: clamp(360px, 65dvh, 520px);
+        min-height: unset;
+      }
+      .arc-card {
+        width: clamp(155px, 44vw, 230px);
+        padding: clamp(16px, 4vw, 28px) clamp(12px, 3vw, 20px);
+      }
+      .service-icon {
+        width: clamp(26px, 7vw, 38px);
+        height: clamp(26px, 7vw, 38px);
+        margin-bottom: clamp(10px, 3vw, 18px);
+      }
+      .service-name { font-size: clamp(0.85rem, 3.2vw, 1rem); }
+      .service-desc { font-size: clamp(0.72rem, 2.6vw, 0.85rem); }
+      .service-price { font-size: clamp(1rem, 4vw, 1.4rem); }
 
-      /* About — remove overlap on mobile, full width stack */
+      /* About — single-column, no overlap */
       #about {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
-        padding: 60px 16px;
+        padding: clamp(40px, 10vw, 68px) clamp(12px, 4vw, 20px);
         gap: 0;
       }
       #about .about-visual { grid-column: 1; grid-row: 1; z-index: 1; }
@@ -1245,42 +1285,45 @@
         grid-column: 1; grid-row: 2;
         width: 100%;
         transform: translateX(110%);
-        margin-top: 24px;
+        margin-top: clamp(16px, 5vw, 28px);
+        padding: clamp(24px, 6vw, 44px) clamp(18px, 5vw, 36px);
       }
       #about .about-content.in-view { transform: translateX(0); }
-      .about-pillars { grid-template-columns: 1fr; gap: 16px; }
-      .about-badge { right: 8px; bottom: -12px; padding: 16px; }
-      .about-badge-num { font-size: 1.8rem; }
+      .about-text { font-size: clamp(0.82rem, 3vw, 1rem); }
+      .about-pillars {
+        grid-template-columns: 1fr;
+        gap: clamp(12px, 3.5vw, 20px);
+      }
+      .pillar-title { font-size: clamp(0.75rem, 2.8vw, 0.9rem); }
+      .pillar-desc  { font-size: clamp(0.7rem, 2.6vw, 0.84rem); }
+      .about-badge {
+        right: clamp(4px, 2vw, 10px);
+        bottom: clamp(-10px, -3vw, -14px);
+        padding: clamp(12px, 3.5vw, 20px);
+      }
+      .about-badge-num { font-size: clamp(1.4rem, 5vw, 2rem); }
+
+      /* Process */
+      .process-steps { grid-template-columns: 1fr; gap: clamp(28px, 8vw, 48px); }
+      .process-steps::before { display: none; }
+      .step-num   { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+      .step-title { font-size: clamp(0.85rem, 3.2vw, 1rem); }
+      .step-desc  { font-size: clamp(0.78rem, 2.8vw, 0.9rem); }
 
       /* Pricing */
       .pricing-grid { grid-template-columns: 1fr; }
-      .pricing-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-
-      /* Process */
-      .process-steps { grid-template-columns: 1fr; gap: 40px; }
-      .process-steps::before { display: none; }
+      .pricing-header { flex-direction: column; align-items: flex-start; gap: clamp(8px, 2.5vw, 16px); }
 
       /* Testimonials */
       .testi-grid { grid-template-columns: 1fr; }
 
       /* Booking */
-      .booking-contact { flex-direction: column; align-items: center; gap: 24px; }
-      .booking-title { font-size: clamp(1.8rem, 6vw, 2.8rem); }
+      .booking-contact { flex-direction: column; align-items: center; gap: clamp(16px, 5vw, 28px); }
+      .booking-title { font-size: clamp(1.5rem, 6vw, 2.8rem); }
 
       /* Footer */
       .footer-top { grid-template-columns: 1fr; }
-      footer { padding: 48px 16px 24px; }
-    }
-
-    /* ─── SMALL PHONE 480px ─────────────────────────────── */
-    @media (max-width: 480px) {
-      .nav-logo img { height: 72px !important; }
-      .hero-title { font-size: clamp(1.6rem, 8vw, 2.2rem); }
-      .arc-stage { height: 60vh; min-height: 380px; }
-      .arc-card { width: 170px; padding: 20px 14px; }
-      .section-title { font-size: clamp(1.6rem, 7vw, 2rem); }
-      #about { padding: 48px 14px; }
-      section { padding: 48px 14px; }
+      footer { padding: clamp(36px, 9vw, 56px) clamp(12px, 4vw, 20px) clamp(16px, 5vw, 28px); }
     }
   </style>
 </head>
