@@ -1249,6 +1249,12 @@
     /* ─── MOBILE BOTTOM NAV ─────────────────────────────── */
     .mobile-bottom-nav {
       display: none;
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease;
+    }
+    .mobile-bottom-nav.mbn-hidden {
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
     }
     @media (max-width: 768px) {
       .mobile-bottom-nav {
@@ -2092,6 +2098,18 @@
   </script>
 
   <script>
+    // Mobile bottom nav — hide once hero leaves viewport
+    (function () {
+      if (window.innerWidth > 768) return;
+      const mbn  = document.querySelector('.mobile-bottom-nav');
+      const hero = document.getElementById('hero');
+      if (!mbn || !hero) return;
+      new IntersectionObserver(
+        ([e]) => mbn.classList.toggle('mbn-hidden', !e.isIntersecting),
+        { threshold: 0.1 }
+      ).observe(hero);
+    })();
+
     // Mobile logo — reveal after hero scrolled past
     (function () {
       if (window.innerWidth > 768) return;
