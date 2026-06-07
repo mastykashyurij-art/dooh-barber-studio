@@ -2103,6 +2103,14 @@
   </script>
 
   <script>
+    // Hero video autoplay fix for mobile/Safari
+    (function () {
+      const v = document.querySelector('.hero-video');
+      if (!v) return;
+      v.muted = true;
+      v.play().catch(() => {});
+    })();
+
     // Mobile bottom nav — hide once hero leaves viewport
     (function () {
       if (window.innerWidth > 768) return;
