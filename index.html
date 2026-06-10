@@ -1673,7 +1673,7 @@
     </a>
   </nav>
 
-  <a href="." onclick="window.scrollTo({top:0,behavior:'smooth'}); setTimeout(function(){ window.location.href=window.location.pathname; }, 900); return false;" class="nav-logo" aria-label="DOOH Barber Studio home">
+  <a href="#hero" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;" class="nav-logo" aria-label="DOOH Barber Studio home">
     <img src="WOODENLOGO.png" alt="DOOH Barber Studio" style="height:243px;width:auto;display:block;margin:0;padding:0;vertical-align:top;" />
   </a>
 
@@ -2542,11 +2542,19 @@
       observer.observe(document.getElementById('about'));
     })();
 
-    // Preloader — grow animation plays, then zoom-in exit on load
+    // Preloader — only on true page load/refresh, not JS navigation
     (function () {
       var preloader = document.getElementById('preloader');
       var logo = document.getElementById('preloader-logo');
       if (!preloader || !logo) return;
+      // Detect navigation type: 'reload' = F5/Ctrl+R, 'navigate' = direct URL load
+      var navEntry = performance.getEntriesByType('navigation')[0];
+      var navType = navEntry ? navEntry.type : (performance.navigation ? (performance.navigation.type === 1 ? 'reload' : 'navigate') : 'navigate');
+      // Hide immediately if this is a back/forward or soft JS nav
+      if (navType === 'back_forward') {
+        preloader.style.display = 'none';
+        return;
+      }
       var start = Date.now();
       var MIN = 2900; // let grow animation finish before exiting
       function hide() {
