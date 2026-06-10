@@ -961,6 +961,112 @@
       letter-spacing: 0.08em;
     }
 
+    .reviews-summary {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+    }
+    .review-badge {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: #161412;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px 32px;
+    }
+    .review-badge-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .google-logo { background: #fff; color: #4285F4; }
+    .booksy-logo { background: #00C2A8; color: #fff; }
+    .review-badge-score {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+    .review-badge-max { font-size: 1rem; font-weight: 300; color: var(--text-muted); }
+    .review-badge-stars { margin: 6px 0 4px; }
+    .review-badge-count {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+    .reviews-carousel {
+      overflow-x: auto;
+      display: flex;
+      gap: 20px;
+      padding-bottom: 20px;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(89,0,1,0.5) transparent;
+    }
+    .reviews-carousel.dragging { cursor: grabbing; user-select: none; }
+    .reviews-carousel::-webkit-scrollbar { height: 4px; }
+    .reviews-carousel::-webkit-scrollbar-track { background: transparent; }
+    .reviews-carousel::-webkit-scrollbar-thumb { background: rgba(89,0,1,0.5); border-radius: 4px; }
+    .reviews-carousel .testi-card { flex: 0 0 300px; }
+    .review-source {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .google-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.65rem;
+      color: #4285F4;
+      flex-shrink: 0;
+    }
+    .star-empty {
+      width: 14px;
+      height: 14px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23444' stroke-width='1.5'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+    .review-time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin: 8px 0 14px;
+    }
+    .add-review-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 40px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-lt);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .add-review-link:hover { color: var(--text); }
+
     /* ─── BOOKING CTA ───────────────────────────────────── */
     #booking {
       position: relative;
@@ -1453,6 +1559,10 @@
 
       /* Testimonials */
       .testi-grid { grid-template-columns: 1fr; }
+      .reviews-carousel .testi-card { flex: 0 0 82vw; }
+      .reviews-summary { gap: 16px; }
+      .review-badge { padding: 16px 20px; gap: 14px; }
+      .review-badge-score { font-size: 1.6rem; }
 
       /* Booking */
       .booking-contact { flex-direction: column; align-items: center; gap: clamp(16px, 5vw, 28px); }
@@ -1784,51 +1894,201 @@
       <h2 class="section-title" id="testi-heading">Co Mówią Nasi<br /><em style="font-style:italic;font-family:'Bodoni Moda',serif;">Klienci</em></h2>
     </div>
 
-    <div class="testi-grid">
+    <!-- Platform scores -->
+    <div class="reviews-summary">
+      <div class="review-badge">
+        <div class="review-badge-logo booksy-logo">B</div>
+        <div>
+          <div class="review-badge-score">5,0<span class="review-badge-max">/5</span></div>
+          <div class="testi-stars review-badge-stars" aria-label="5 gwiazdek">
+            <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+          </div>
+          <div class="review-badge-count">889 opinii · Booksy</div>
+        </div>
+      </div>
+      <div class="review-badge">
+        <div class="review-badge-logo google-logo">G</div>
+        <div>
+          <div class="review-badge-score">4,7<span class="review-badge-max">/5</span></div>
+          <div class="testi-stars review-badge-stars" aria-label="4.7 gwiazdek">
+            <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+          </div>
+          <div class="review-badge-count">125 opinii · Google</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews carousel -->
+    <div class="reviews-carousel" id="reviewsCarousel">
 
       <article class="testi-card">
-        <div class="testi-stars" aria-label="5 stars">
-          <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        </div>
-        <p class="testi-quote">„Najlepsze doświadczenie w barber shopie, jakie miałem w Polsce. Atmosfera jest nieskazitelna — ciemne drewno, czyste linie, prawdziwe rzemiosło. Nie pójdę już nigdzie indziej."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" aria-hidden="true">M</div>
-          <div>
-            <div class="testi-name">Michał K.</div>
-            <div class="testi-city">Kraków, Stare Miasto</div>
-          </div>
-        </div>
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">3 miesiące temu</div>
+        <p class="testi-quote">„Very friendly and professional. They gave great advice on hair care — perfect. Well worth the price and time."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">P</div><div><div class="testi-name">Pritam Ranabhat</div></div></div>
       </article>
 
       <article class="testi-card">
-        <div class="testi-stars" aria-label="5 stars">
-          <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        </div>
-        <p class="testi-quote">„Przyszedłem po strzyżenie, zostałem dla doświadczenia. Samo golenie gorącym ręcznikiem jest warte wizyty. Ci goście naprawdę dbają o swoje rzemiosło."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" aria-hidden="true">T</div>
-          <div>
-            <div class="testi-name">Tomasz W.</div>
-            <div class="testi-city">Kraków, Kazimierz</div>
-          </div>
-        </div>
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">3 miesiące temu</div>
+        <p class="testi-quote">„Dorje, very nice hair cut — highly recommended."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">H</div><div><div class="testi-name">Harshal Shah</div></div></div>
       </article>
 
       <article class="testi-card">
-        <div class="testi-stars" aria-label="5 stars">
-          <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">rok temu</div>
+        <p class="testi-quote">„Excellent barbershop. I was fully satisfied with the service and attitude. All the staff were nice and very friendly, especially Polina."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">M</div><div><div class="testi-name">Mark Goh</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">rok temu</div>
+        <p class="testi-quote">„Отличное обслуживание в лице Мастера Карины! Стрижка и коррекция бороды были выполнены филигранно! Приятным бонусом была скидка 20% по понедельникам."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">U</div><div><div class="testi-name">Uladzimir</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">rok temu</div>
+        <p class="testi-quote">„Спасибо мастеру Карине, стрижка отличная, очень понравился подход. Всё на высшем уровне."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">В</div><div><div class="testi-name">Вова Новак</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">rok temu</div>
+        <p class="testi-quote">„Спасибо мастеру Карине за предоставленные услуги барбера, стригусь не впервые и всегда приятно удивлен от мастерства, плюс хороший собеседник."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">Д</div><div><div class="testi-name">Денис Ліщук</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">4 lata temu</div>
+        <p class="testi-quote">„Bardzo polecam! I got my haircut at Anastasia, who was not only really kind, but she did one of the best and most professional cuts I ever got."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">G</div><div><div class="testi-name">Gergő Illés</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">4 lata temu</div>
+        <p class="testi-quote">„Anastazja is awesome barber and a very nice person as well. Definitely recommend to everyone."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">A</div><div><div class="testi-name">Alexey Polyakov</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">rok temu</div>
+        <p class="testi-quote">„Особая благодарность Карине. Всё отлично — стрижка и коррекция бороды превосходно."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">V</div><div><div class="testi-name">Vadzim Zianko</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">2 lata temu</div>
+        <p class="testi-quote">„Хорошее место для хорошей стрижки за адекватную цену. Русский, украинский, польский, английский — найдут подход к любому клиенту."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">Y</div><div><div class="testi-name">Yuri S</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">4 lata temu</div>
+        <p class="testi-quote">„Great barbershop. Barbers are very experienced and pay attention to details."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">V</div><div><div class="testi-name">Vitaly Ioskevich</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">4 lata temu</div>
+        <p class="testi-quote">„Very good services and space. Sasha speaks English. I recommend."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">L</div><div><div class="testi-name">Leo Mattos</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">3 lata temu</div>
+        <p class="testi-quote">„Excellent service, I'll be coming back."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">F</div><div><div class="testi-name">Fernando Palma</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">4 lata temu</div>
+        <p class="testi-quote">„Great barbers! Recommended!"</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">B</div><div><div class="testi-name">Borys Kulchytskyy</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">3 lata temu</div>
+        <p class="testi-quote">„Great haircut from Olga."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">S</div><div><div class="testi-name">Steven Tsakos</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">2 lata temu</div>
+        <p class="testi-quote">„Лучший барбер в Кракове."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">A</div><div><div class="testi-name">Aleksandr Andrievskyy</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="4 gwiazdki">
+          <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star-empty"></div>
         </div>
-        <p class="testi-quote">„Profesjonalny, punktualny i precyzyjny. Rzeźbienie brody wyniosło mój wygląd na zupełnie nowy poziom. Gorąco polecam pakiet Premium — wart każdego złotego."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" aria-hidden="true">A</div>
-          <div>
-            <div class="testi-name">Adam P.</div>
-            <div class="testi-city">Kraków, Podgórze</div>
-          </div>
-        </div>
+        <div class="review-time">4 lata temu</div>
+        <p class="testi-quote">„Приятные девочки работают, чисто."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">А</div><div><div class="testi-name">Голубицкая Анастасия</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">2 lata temu</div>
+        <p class="testi-quote">„Perfect!"</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">P</div><div><div class="testi-name">Paweł Cora</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">4 lata temu</div>
+        <p class="testi-quote">„Fantastic."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">M</div><div><div class="testi-name">Magic Simba</div></div></div>
+      </article>
+
+      <article class="testi-card">
+        <div class="review-source"><div class="google-dot">G</div> Google</div>
+        <div class="testi-stars" aria-label="5 gwiazdek"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="review-time">4 lata temu</div>
+        <p class="testi-quote">„Great barbers."</p>
+        <div class="testi-author"><div class="testi-avatar" aria-hidden="true">M</div><div><div class="testi-name">Michael Roden</div></div></div>
       </article>
 
     </div>
+
+    <a href="https://www.google.com/maps/search/DOOH+Barber+Studio+Florja%C5%84ska+14+Krak%C3%B3w" target="_blank" rel="noopener" class="add-review-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Dodaj opinię w Google
+    </a>
   </section>
 
   <!-- ── BOOKING CTA ───────────────────────────────────────── -->
@@ -2215,6 +2475,26 @@
         { threshold: 0.5 }
       );
       observer.observe(document.getElementById('about'));
+    })();
+
+    // Reviews carousel — drag to scroll on desktop
+    (function () {
+      const el = document.getElementById('reviewsCarousel');
+      if (!el) return;
+      let isDown = false, startX, scrollLeft;
+      el.addEventListener('mousedown', function (e) {
+        isDown = true;
+        el.classList.add('dragging');
+        startX = e.pageX - el.offsetLeft;
+        scrollLeft = el.scrollLeft;
+      });
+      el.addEventListener('mouseleave', function () { isDown = false; el.classList.remove('dragging'); });
+      el.addEventListener('mouseup', function () { isDown = false; el.classList.remove('dragging'); });
+      el.addEventListener('mousemove', function (e) {
+        if (!isDown) return;
+        e.preventDefault();
+        el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+      });
     })();
   </script>
 </body>
