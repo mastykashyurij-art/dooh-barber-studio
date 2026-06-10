@@ -2497,11 +2497,10 @@
       });
     })();
 
-    // Reviews carousel — wheel-to-scroll: hover section, scroll wheel moves carousel horizontally
+    // Reviews carousel — wheel-to-scroll: only intercepts when cursor is over the carousel track
     (function () {
-      const section  = document.getElementById('testimonials');
       const carousel = document.getElementById('reviewsCarousel');
-      if (!section || !carousel) return;
+      if (!carousel) return;
       let target = 0, animating = false;
       function tick() {
         var diff = target - carousel.scrollLeft;
@@ -2509,7 +2508,7 @@
         carousel.scrollLeft += diff * 0.14;
         requestAnimationFrame(tick);
       }
-      section.addEventListener('wheel', function (e) {
+      carousel.addEventListener('wheel', function (e) {
         e.preventDefault();
         target = Math.max(0, Math.min(
           carousel.scrollWidth - carousel.clientWidth,
