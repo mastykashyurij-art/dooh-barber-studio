@@ -43,21 +43,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.75s ease, visibility 0.75s ease;
+      transition: opacity 0.6s ease;
     }
     #preloader.hidden {
       opacity: 0;
-      visibility: hidden;
       pointer-events: none;
     }
     #preloader-logo {
-      width: clamp(180px, 42vw, 340px);
-      animation: preloader-grow 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      width: clamp(200px, 46vw, 360px);
+      animation: preloader-grow 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    #preloader-logo.exiting {
+      animation: preloader-exit 0.85s cubic-bezier(0.4, 0, 0.9, 1) forwards;
     }
     @keyframes preloader-grow {
-      0%   { transform: scale(0.12); opacity: 0; }
-      18%  { opacity: 1; }
+      0%   { transform: scale(0.08); opacity: 0; }
+      12%  { opacity: 1; }
       100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes preloader-exit {
+      0%   { transform: scale(1);   opacity: 1; }
+      65%  { opacity: 1; }
+      100% { transform: scale(4.5); opacity: 0; }
     }
 
     html {
@@ -1633,7 +1640,7 @@
 
   <!-- ── PRELOADER ────────────────────────────────────────── -->
   <div id="preloader" role="status" aria-label="Ładowanie strony">
-    <img id="preloader-logo" src="DOOHpreloader.png" alt="DOOH Barber Studio" />
+    <img id="preloader-logo" src="DOOHpreloader_nobg.png" alt="DOOH Barber Studio" />
   </div>
 
   <!-- ── NAVIGATION ──────────────────────────────────────── -->
@@ -2163,7 +2170,7 @@
       </p>
       <div class="booking-actions">
         <a href="tel:+48123456789" class="btn-primary">Zadzwoń i Zarezerwuj</a>
-        <a href="mailto:info@doohbarber.pl" class="btn-ghost">Napisz do Nas</a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@doohbarber.pl&su=Rezerwacja%20%E2%80%94%20DOOH%20Barber%20Studio&body=Cześć%2C%0A%0AChciałbym%20zarezerwować%20wizytę%20w%20DOOH%20Barber%20Studio.%0A%0AImię%3A%0AUsługa%3A%0AProponowany%20termin%3A%0A%0APozdrawiam" class="btn-ghost" target="_blank" rel="noopener noreferrer">Napisz do Nas</a>
       </div>
 
       <div class="booking-contact" aria-label="Dane kontaktowe">
@@ -2535,17 +2542,26 @@
       observer.observe(document.getElementById('about'));
     })();
 
-    // Preloader — hide after page load, minimum 1.8s display
+    // Preloader — grow animation plays, then zoom-in exit on load
     (function () {
       var preloader = document.getElementById('preloader');
-      if (!preloader) return;
+      var logo = document.getElementById('preloader-logo');
+      if (!preloader || !logo) return;
       var start = Date.now();
-      var MIN = 1800;
+      var MIN = 2900; // let grow animation finish before exiting
       function hide() {
         var wait = Math.max(0, MIN - (Date.now() - start));
         setTimeout(function () {
-          preloader.classList.add('hidden');
-          setTimeout(function () { if (preloader.parentNode) preloader.parentNode.removeChild(preloader); }, 750);
+          // Trigger zoom-in exit on the logo
+          logo.classList.add('exiting');
+          // Fade out the overlay mid-way through the zoom
+          setTimeout(function () {
+            preloader.classList.add('hidden');
+          }, 420);
+          // Remove from DOM after everything finishes
+          setTimeout(function () {
+            if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+          }, 1100);
         }, wait);
       }
       if (document.readyState === 'complete') { hide(); }
