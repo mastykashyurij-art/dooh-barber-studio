@@ -66,6 +66,19 @@
       65%  { opacity: 1; }
       100% { transform: scale(4.5); opacity: 0; }
     }
+    #preloader-pct {
+      position: absolute;
+      bottom: clamp(28px, 7vw, 52px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Jost', Arial, sans-serif;
+      font-size: clamp(0.78rem, 2.2vw, 1rem);
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      color: #C8956C;
+      opacity: 0.75;
+      white-space: nowrap;
+    }
 
     html {
       scroll-behavior: smooth;
@@ -1641,6 +1654,7 @@
   <!-- ── PRELOADER ────────────────────────────────────────── -->
   <div id="preloader" role="status" aria-label="Ładowanie strony">
     <img id="preloader-logo" src="DOOHpreloader_nobg.png" alt="DOOH Barber Studio" />
+    <div id="preloader-pct" aria-live="polite">0%</div>
   </div>
 
   <!-- ── NAVIGATION ──────────────────────────────────────── -->
@@ -2542,38 +2556,50 @@
       observer.observe(document.getElementById('about'));
     })();
 
-    // Preloader — only on true page load/refresh, not JS navigation
+    // Preloader — percentage counter + zoom exit, only on real page load
     (function () {
       var preloader = document.getElementById('preloader');
-      var logo = document.getElementById('preloader-logo');
+      var logo      = document.getElementById('preloader-logo');
+      var counter   = document.getElementById('preloader-pct');
       if (!preloader || !logo) return;
-      // Detect navigation type: 'reload' = F5/Ctrl+R, 'navigate' = direct URL load
+
+      // Skip on back/forward navigation
       var navEntry = performance.getEntriesByType('navigation')[0];
-      var navType = navEntry ? navEntry.type : (performance.navigation ? (performance.navigation.type === 1 ? 'reload' : 'navigate') : 'navigate');
-      // Hide immediately if this is a back/forward or soft JS nav
-      if (navType === 'back_forward') {
-        preloader.style.display = 'none';
-        return;
+      var navType  = navEntry ? navEntry.type : (performance.navigation ? (performance.navigation.type === 1 ? 'reload' : 'navigate') : 'navigate');
+      if (navType === 'back_forward') { preloader.style.display = 'none'; return; }
+
+      var pct        = 0;
+      var pageLoaded = document.readyState === 'complete';
+      var MIN        = 2900;
+      var start      = Date.now();
+
+      if (!pageLoaded) { window.addEventListener('load', function () { pageLoaded = true; }); }
+
+      function triggerExit() {
+        logo.classList.add('exiting');
+        setTimeout(function () { preloader.classList.add('hidden'); }, 420);
+        setTimeout(function () { if (preloader.parentNode) preloader.parentNode.removeChild(preloader); }, 1100);
       }
-      var start = Date.now();
-      var MIN = 2900; // let grow animation finish before exiting
-      function hide() {
-        var wait = Math.max(0, MIN - (Date.now() - start));
-        setTimeout(function () {
-          // Trigger zoom-in exit on the logo
-          logo.classList.add('exiting');
-          // Fade out the overlay mid-way through the zoom
-          setTimeout(function () {
-            preloader.classList.add('hidden');
-          }, 420);
-          // Remove from DOM after everything finishes
-          setTimeout(function () {
-            if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
-          }, 1100);
-        }, wait);
+
+      function tick() {
+        var elapsed    = Date.now() - start;
+        var canFinish  = pageLoaded && elapsed >= MIN;
+        var natural    = Math.min(90, (elapsed / MIN) * 90);
+
+        pct += canFinish ? (100 - pct) * 0.1 : (natural - pct) * 0.04;
+
+        var display = Math.min(100, Math.floor(pct));
+        if (counter) counter.textContent = display + '%';
+
+        if (pct >= 99.5 && canFinish) {
+          if (counter) counter.textContent = '100%';
+          triggerExit();
+        } else {
+          requestAnimationFrame(tick);
+        }
       }
-      if (document.readyState === 'complete') { hide(); }
-      else { window.addEventListener('load', hide); }
+
+      requestAnimationFrame(tick);
     })();
 
     // Reviews carousel — drag to scroll on desktop
