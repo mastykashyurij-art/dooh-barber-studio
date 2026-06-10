@@ -1474,11 +1474,16 @@
         font-size: clamp(1.55rem, 6.5vw, 2.6rem);
         margin-bottom: clamp(10px, 3vw, 16px);
         line-height: 1.1;
+        text-shadow: 0 2px 18px rgba(0,0,0,0.75), 0 1px 4px rgba(0,0,0,0.55);
       }
       .hero-sub {
         font-size: clamp(0.78rem, 3vw, 1rem);
         margin-bottom: clamp(18px, 5vw, 28px);
         margin-top: auto;
+        text-shadow: 0 1px 10px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5);
+      }
+      .hero-eyebrow {
+        text-shadow: 0 1px 8px rgba(0,0,0,0.65);
       }
       .hero-actions { flex-direction: column; gap: clamp(8px, 2.5vw, 12px); }
       .btn-primary, .btn-ghost { text-align: center; width: 100%; }
@@ -1488,6 +1493,14 @@
         color: #FAF3EB;
       }
       .hero-right { display: none; }
+      #hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.10) 60%, transparent 100%);
+        z-index: 1;
+        pointer-events: none;
+      }
 
       /* Sections */
       section {
