@@ -34,6 +34,32 @@
       --radius-lg:  12px;
     }
 
+    /* ─── PRELOADER ─────────────────────────────────────── */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: #1A0D06;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.75s ease, visibility 0.75s ease;
+    }
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    #preloader-logo {
+      width: clamp(180px, 42vw, 340px);
+      animation: preloader-grow 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes preloader-grow {
+      0%   { transform: scale(0.12); opacity: 0; }
+      18%  { opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
     html {
       scroll-behavior: smooth;
       overflow-x: hidden;
@@ -1605,6 +1631,11 @@
 </head>
 <body>
 
+  <!-- ── PRELOADER ────────────────────────────────────────── -->
+  <div id="preloader" role="status" aria-label="Ładowanie strony">
+    <img id="preloader-logo" src="DOOHpreloader.png" alt="DOOH Barber Studio" />
+  </div>
+
   <!-- ── NAVIGATION ──────────────────────────────────────── -->
   <nav role="navigation" aria-label="Główna nawigacja">
     <ul class="nav-links">
@@ -2502,6 +2533,23 @@
         { threshold: 0.5 }
       );
       observer.observe(document.getElementById('about'));
+    })();
+
+    // Preloader — hide after page load, minimum 1.8s display
+    (function () {
+      var preloader = document.getElementById('preloader');
+      if (!preloader) return;
+      var start = Date.now();
+      var MIN = 1800;
+      function hide() {
+        var wait = Math.max(0, MIN - (Date.now() - start));
+        setTimeout(function () {
+          preloader.classList.add('hidden');
+          setTimeout(function () { if (preloader.parentNode) preloader.parentNode.removeChild(preloader); }, 750);
+        }, wait);
+      }
+      if (document.readyState === 'complete') { hide(); }
+      else { window.addEventListener('load', hide); }
     })();
 
     // Reviews carousel — drag to scroll on desktop
