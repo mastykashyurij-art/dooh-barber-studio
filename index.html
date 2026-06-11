@@ -51,19 +51,19 @@
     }
     #preloader-logo {
       width: clamp(200px, 46vw, 360px);
-      animation: preloader-grow 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: preloader-grow 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     #preloader-logo.exiting {
-      animation: preloader-exit 0.85s cubic-bezier(0.4, 0, 0.9, 1) forwards;
+      animation: preloader-exit 0.45s cubic-bezier(0.4, 0, 0.9, 1) forwards;
     }
     @keyframes preloader-grow {
       0%   { transform: scale(0.08); opacity: 0; }
-      12%  { opacity: 1; }
+      18%  { opacity: 1; }
       100% { transform: scale(1); opacity: 1; }
     }
     @keyframes preloader-exit {
       0%   { transform: scale(1);   opacity: 1; }
-      65%  { opacity: 1; }
+      55%  { opacity: 1; }
       100% { transform: scale(4.5); opacity: 0; }
     }
     #preloader-pct {
@@ -2570,15 +2570,15 @@
 
       var pct        = 0;
       var pageLoaded = document.readyState === 'complete';
-      var MIN        = 2900;
+      var MIN        = 1200;
       var start      = Date.now();
 
       if (!pageLoaded) { window.addEventListener('load', function () { pageLoaded = true; }); }
 
       function triggerExit() {
         logo.classList.add('exiting');
-        setTimeout(function () { preloader.classList.add('hidden'); }, 420);
-        setTimeout(function () { if (preloader.parentNode) preloader.parentNode.removeChild(preloader); }, 1100);
+        setTimeout(function () { preloader.classList.add('hidden'); }, 240);
+        setTimeout(function () { if (preloader.parentNode) preloader.parentNode.removeChild(preloader); }, 650);
       }
 
       function tick() {
@@ -2586,7 +2586,7 @@
         var canFinish  = pageLoaded && elapsed >= MIN;
         var natural    = Math.min(90, (elapsed / MIN) * 90);
 
-        pct += canFinish ? (100 - pct) * 0.1 : (natural - pct) * 0.04;
+        pct += canFinish ? (100 - pct) * 0.18 : (natural - pct) * 0.08;
 
         var display = Math.min(100, Math.floor(pct));
         if (counter) counter.textContent = display + '%';
